@@ -24,9 +24,9 @@ int main(int argc, char const *argv[])
     int i, j;
 
     unsigned char pixel[WIDTH*HEIGHT];
-    int Gx[WIDTH*HEIGHT]={0};
-    int Gy[WIDTH*HEIGHT];
-    float G[WIDTH*HEIGHT];
+    char Gx[WIDTH*HEIGHT];
+    char Gy[WIDTH*HEIGHT];
+    unsigned char G[WIDTH*HEIGHT];
     float theta[WIDTH*HEIGHT];
 
     if(argc != 2)
@@ -77,30 +77,22 @@ int main(int argc, char const *argv[])
                 G[i + j*WIDTH] = 0;
             }else
             {
-          //   Gx = (-1)*pixel[i-1][j-1]  + pixel[i+1][j-1] + (-2)*pixel[i-1][j]
-          //       + 2*pixel[i+1][j] + (-1)*pixel[i-1][j+1] + pixel[i+1][j+1];
-          //   Gy = pixel[i-1][j-1] + 2*pixel[i][j-1] + pixel[i+1][j-1] 
-          // + (-1)*pixel[i-1][j+1] + (-2)*pixel[i][j+1] + (-1)*pixel[i+1][j+1];
+                Gx[i + j*WIDTH] = 
+                (-1)*pixel[i-1 + (j-1)*WIDTH]  + pixel[i+1+(j-1)*WIDTH] + (-2)*pixel[i-1+j*WIDTH] + 
+                   2*pixel[i+1+j*WIDTH]   + (-1)*pixel[i-1+(j+1)*WIDTH] + pixel[i+1+(j+1)*WIDTH];
 
-                // Gx[i + j*WIDTH] = 
-                // (-1)*pixel[i-1 + (j-1)*WIDTH]  + pixel[i+1+(j-1)*WIDTH] + (-2)*pixel[i-1+j*WIDTH] + 
-                //    2*pixel[i+1+j*WIDTH] + (-1)*pixel[i-1+(j+1)*WIDTH] + pixel[i+1+(j+1)*WIDTH];
-                // // Gx[i + j*WIDTH] = (-1)*pixel[(i-1)*HEIGHT + (j-1)]  + pixel[(i+1)*HEIGHT+j-1] + (-2)*pixel[(i-1)*HEIGHT+j] + 2*pixel[(i+1)*HEIGHT+j] + (-1)*pixel[(i-1)*HEIGHT+j+1] + pixel[(i+1)*HEIGHT+j+1];
-                // Gy[i + j*WIDTH] = pixel[i-1+(j-1)*WIDTH] + 2*pixel[i+(j-1)*WIDTH] + pixel[i+ 1 + (j-1)*WIDTH] + (-1)*pixel[i-1+(j+1)*WIDTH] + (-2)*pixel[i+(j+1)*WIDTH] + (-1)*pixel[i+1+(j+1)*WIDTH];
-                // G[i+j*WIDTH] = abs(Gx[i+j*WIDTH]) + abs(Gy[i+j*WIDTH]);
-                // if(G[i+j*WIDTH] > 100) G[i+j*WIDTH] = 255;
-                // else G[i+j*WIDTH] = 0;
-                if(i<WIDTH/2)
-                {
-                    Gx[i + j*WIDTH] = 255;
-                }
+                Gy[i + j*WIDTH] = 
+                pixel[i-1+(j-1)*WIDTH] + 2*pixel[i+(j-1)*WIDTH] + pixel[i+ 1 + (j-1)*WIDTH] + 
+           (-1)*pixel[i-1+(j+1)*WIDTH] + (-2)*pixel[i+(j+1)*WIDTH] + (-1)*pixel[i+1+(j+1)*WIDTH];
+
+                G[i+j*WIDTH] = sqrt((Gx[i+j*WIDTH])*(Gx[i+j*WIDTH]) + (Gy[i+j*WIDTH])*(Gy[i+j*WIDTH]));
             }
         }
     }
 
     // Save Gx
     stbi_write_png("Gx.png", WIDTH, HEIGHT, 1, Gx, 0);
-    // stbi_write_png("Gy.png", WIDTH, HEIGHT, 1, Gy, 0);
-    // stbi_write_png("G.png",  WIDTH, HEIGHT, 1, G,  0);
+    stbi_write_png("Gy.png", WIDTH, HEIGHT, 1, Gy, 0);
+    stbi_write_png("G.png",  WIDTH, HEIGHT, 1, G,  0);
     return 0;
 }
