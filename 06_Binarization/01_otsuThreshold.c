@@ -1,5 +1,5 @@
 /*
-compile: gcc 01_read_from_data.c -lm -o read_from_data
+compile: gcc 01_otsuThreshold.c -lm -o 01_otsuThreshold
 */
 
 #include <stdio.h>
