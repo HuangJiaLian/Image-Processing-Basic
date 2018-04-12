@@ -74,7 +74,7 @@ void heapSort(int *list, int length)
     }
 }
 
-
+// Print list of array without using loop
 void outputList(int *list, unsigned int index, unsigned int indexMax)
 {
 	if(index < indexMax)
