@@ -75,4 +75,5 @@ plt.imshow(G, cmap=plt.cm.gray)
 plt.axis('off')
 plt.title('G')
 
-plt.show()
+# plt.show()
+plt.savefig('Robert.png')
